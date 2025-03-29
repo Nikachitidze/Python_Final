@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ car.brand }} {{ car.model }} - დეტალურად{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row shadow rounded bg-white p-4">
+        <!-- Left Side: Image Carousel -->
+        <div class="col-md-6">
+            <div id="carImages" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner rounded">
+                    <div class="carousel-item active">
+                        <img src="{{ car.photo1.url }}" class="d-block w-100" alt="ფოტო 1">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="{{ car.photo2.url }}" class="d-block w-100" alt="ფოტო 2">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="{{ car.photo3.url }}" class="d-block w-100" alt="ფოტო 3">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carImages" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carImages" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Right Side: Car Info -->
+        <div class="col-md-6">
+            <h2>{{ car.brand }} {{ car.model }}</h2>
+            <p class="text-muted">{{ car.city }} / {{ car.year }} / {{ car.transmission }}</p>
+            <p><strong>💰 ფასი დღიურად:</strong> {{ car.price_per_day }}₾</p>
+            <p><strong>🧝 ტევადობა:</strong> {{ car.capacity }} კაცი</p>
+            <p><strong>⛽ ბაკი:</strong> {{ car.fuel_capacity }} ლიტრი</p>
+
+            <p><strong>📞 დამატებულია:</strong>
+                <a href="{% url 'user_profile' car.added_by.id %}" class="text-decoration-none fw-semibold">
+                    {{ car.added_by.first_name }} {{ car.added_by.last_name }}
+                </a>
+            </p>
+
+            <div class="mt-2">
+                <span id="blurredPhone">{{ car.added_by.phone_number|slice:":7" }}***</span>
+                <button onclick="revealPhone()" class="btn btn-outline-secondary btn-sm ms-2">ნომრის ნახვა</button>
+            </div>
+
+            {% if car.latitude and car.longitude %}
+                <div class="mt-4">
+                    <iframe
+                        width="100%"
+                        height="250"
+                        frameborder="0"
+                        style="border:0"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        src="https://www.google.com/maps?q={{ car.latitude }},{{ car.longitude }}&output=embed"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            {% endif %}
+
+            <div class="d-flex justify-content-between align-items-center mt-4">
+                <a href="{% url 'rent_car' car.id %}" class="btn btn-primary w-75 py-2 fs-5">ქირაობა</a>
+                <form method="post" action="{% url 'toggle_favorite' car.id %}" class="ms-3">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-warning">
+                        {% if is_favorite %}★{% else %}☆{% endif %}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function revealPhone() {
+        document.getElementById('blurredPhone').textContent = "{{ car.added_by.phone_number }}";
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}პროფილი - AutoRent{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 shadow rounded p-4 bg-white text-center">
+            <div class="d-flex align-items-center justify-content-center mb-4">
+                <div class="rounded-circle text-white d-flex align-items-center justify-content-center shadow"
+                     style="width: 90px; height: 90px; font-size: 2rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    {{ initials }}
+                </div>
+                <div class="ms-4 text-start">
+                    <h4 class="fw-bold">{{ user.first_name }} {{ user.last_name }}</h4>
+                    <p class="text-muted">{{ user.email }}</p>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="text-start mt-4">
+      <h5 class="fw-semibold">ნაქირავები მანქანები</h5>
+{% if rented_cars %}
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        {% for rent in rented_cars %}
+        <div class="col">
+            <div class="card shadow-sm h-100">
+                <img src="{{ rent.car.photo1.url }}" class="card-img-top" alt="Car">
+                <div class="card-body">
+                    <h5 class="card-title">{{ rent.car.brand }} {{ rent.car.model }}</h5>
+                    <p class="card-text">
+                        ქალაქი: {{ rent.car.city }} <br>
+                        პერიოდით: {{ rent.rent_start_date }} - {{ rent.rent_end_date }}<br>
+                        სულ გადახდილი: <strong>{{ rent.total_price }} ₾</strong>
+                    </p>
+                    <form method="post" action="{% url 'cancel_rent' rent.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-danger btn-sm">გაუქმება</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="text-muted">ამ დროისთვის არ გაქვთ დაქირავებული მანქანები.</p>
+{% endif %}
+
+          <h5 class="fw-semibold mt-4">თქვენი განცხადებები</h5>
+{% if added_cars %}
+    <div class="row">
+        {% for car in added_cars %}
+        <div class="col-md-6 mb-3">
+            <div class="border rounded p-3">
+                <strong>{{ car.brand }} {{ car.model }}</strong><br>
+                გამოშვების წელი: {{ car.year }}<br>
+                ფასი დღიურად: {{ car.price_per_day }}₾
+                <a href="{% url 'delete_car' car.id %}" class="btn btn-danger btn-sm mt-2">წაშლა</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="text-muted">ჯერ არ გაქვთ დამატებული განცხადებები.</p>
+{% endif %}
+            
+              <h5 class="fw-semibold mt-4">მოწონებული მანქანები</h5>
+{% if favorite_cars %}
+    <div class="row">
+        {% for car in favorite_cars %}
+        <div class="col-md-6 mb-3">
+            <div class="border rounded p-3">
+                <strong>{{ car.brand }} {{ car.model }}</strong><br>
+                ფასი დღიურად: {{ car.price_per_day }}₾<br>
+                <a href="{% url 'car_detail' car.id %}" class="btn btn-outline-primary btn-sm mt-2">დეტალურად</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+{% else %}
+    <p class="text-muted">ჯერ არ გაქვთ ფავორიტებში დამატებული მანქანები.</p>
+{% endif %}
+{% endblock %}

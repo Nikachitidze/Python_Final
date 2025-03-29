@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h4 class="mb-4">გთხოვთ შეიყვანოთ მეილზე გამოგზავნილი კოდი</h4>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="code" class="form-control mb-3" placeholder="მაგ: 123456" required>
+        <button type="submit" class="btn btn-primary">დადასტურება</button>
+    </form>
+</div>
+{% endblock %}

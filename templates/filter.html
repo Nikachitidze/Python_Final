@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}მანქანების ფილტრი{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="mb-4">მანქანების ფილტრი</h2>
+
+    <form method="get" class="row gy-3 gx-4 align-items-end mb-5 bg-light p-4 rounded shadow-sm">
+        <div class="col-md-2">
+            <label class="form-label">ქალაქი</label>
+            <input type="text" name="city" class="form-control" placeholder="ქალაქი">
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">ბრენდი</label>
+            <input type="text" name="brand" class="form-control" placeholder="ბრენდი">
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">ტრანსმისია</label>
+            <select name="transmission" class="form-select">
+                <option value="">ყველა</option>
+                <option value="auto">ავტომატიკა</option>
+                <option value="manual">მექანიკა</option>
+                <option value="tiptronic">ტიპტრონიკი</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">მინ. ფასი</label>
+            <input type="number" name="min_price" class="form-control" placeholder="₾">
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">მაქს. ფასი</label>
+            <input type="number" name="max_price" class="form-control" placeholder="₾">
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">ტელ. ნომერი</label>
+            <input type="text" name="phone_number" class="form-control" placeholder="555...">
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100 mt-2">ძებნა</button>
+        </div>
+    </form>
+
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+        {% for car in cars %}
+        <div class="col">
+            <div class="card shadow-sm h-100">
+                <img src="{{ car.photo1.url }}" class="card-img-top" alt="Car image">
+                <div class="card-body">
+                    <h5 class="card-title">{{ car.brand }} {{ car.model }}</h5>
+                    <p class="card-text">{{ car.city }} / {{ car.year }} / {{ car.transmission }}</p>
+                    <p class="fw-bold">{{ car.price_per_day }}₾ / დღეში</p>
+                    <a href="{% url 'car_detail' car.id %}" class="btn btn-outline-primary w-100">დეტალურად</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col">
+            <p class="text-muted">შედეგები ვერ მოიძებნა</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

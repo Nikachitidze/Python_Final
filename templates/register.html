@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load forms_tags %}
+{% block title %}რეგისტრაცია - AutoRent{% endblock %}
+
+{% block content %}
+<div class="row align-items-center shadow rounded bg-white mt-5" style="max-width: 1000px; margin: 0 auto;">
+    <div class="col-md-6 p-5">
+        <h3 class="mb-4 text-center">რეგისტრაცია</h3>
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="form-floating mb-3">
+                {{ form.first_name|add_class:"form-control" }}
+                <label for="{{ form.first_name.id_for_label }}">სახელი</label>
+                {% if form.first_name.errors %}
+                    <div class="text-danger small">{{ form.first_name.errors|striptags }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-floating mb-3">
+                {{ form.last_name|add_class:"form-control" }}
+                <label for="{{ form.last_name.id_for_label }}">გვარი</label>
+                {% if form.last_name.errors %}
+                    <div class="text-danger small">{{ form.last_name.errors|striptags }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-floating mb-3">
+                {{ form.phone_number|add_class:"form-control" }}
+                <label for="{{ form.phone_number.id_for_label }}">ტელეფონის ნომერი</label>
+                {% if form.phone_number.errors %}
+                    <div class="text-danger small">{{ form.phone_number.errors|striptags }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-floating mb-3">
+                {{ form.email|add_class:"form-control" }}
+                <label for="{{ form.email.id_for_label }}">ელ. ფოსტა</label>
+                {% if form.email.errors %}
+                    <div class="text-danger small">{{ form.email.errors|striptags }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-floating mb-3">
+                {{ form.password1|add_class:"form-control" }}
+                <label for="{{ form.password1.id_for_label }}">პაროლი</label>
+                {% if form.password1.errors %}
+                    <div class="text-danger small">{{ form.password1.errors|striptags }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-floating mb-4">
+                {{ form.password2|add_class:"form-control" }}
+                <label for="{{ form.password2.id_for_label }}">გაიმეორე პაროლი</label>
+                {% if form.password2.errors %}
+                    <div class="text-danger small">{{ form.password2.errors|striptags }}</div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-2">დარეგისტრირდი</button>
+        </form>
+    </div>
+
+    <div class="col-md-6 p-5 text-center d-none d-md-block">
+        <img src="{% static 'img/registartion_car.png' %}" class="img-fluid mb-3" alt="Car Illustration">
+        <p class="mt-2">დარეგისტრირდი მარტივად და იქირავე მანქანა წამებში!</p>
+    </div>
+</div>
+{% endblock %}

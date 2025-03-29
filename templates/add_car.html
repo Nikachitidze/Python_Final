@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load forms_tags %}
+
+{% block title %}მანქანის დამატება - AutoRent{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row shadow-lg rounded-4 bg-white overflow-hidden">
+
+        <!-- Left Illustration Side -->
+        <div class="col-md-6 d-none d-md-flex align-items-center justify-content-center bg-light p-4">
+            <img src="{% static 'img/add_car.png' %}" alt="Add Car" class="img-fluid" style="max-height: 400px;">
+        </div>
+
+        <!-- Right Form Side -->
+        <div class="col-md-6 p-5">
+            <h3 class="mb-4 text-center">მანქანის დამატება</h3>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-floating mb-3">
+                        {{ field|add_class:"form-control" }}
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {% if field.errors %}
+                            <div class="text-danger small">{{ field.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary w-100 py-2 fs-5 rounded-pill">დამატება</button>
+            </form>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

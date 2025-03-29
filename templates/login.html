@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load forms_tags %}
+
+{% block title %}ავტორიზაცია - AutoRent{% endblock %}
+
+{% block content %}
+<div class="row align-items-center shadow rounded bg-white mt-5" style="max-width: 1000px; margin: 0 auto;">
+    <div class="col-md-6 p-5">
+        <h3 class="mb-4 text-center">ავტორიზაცია</h3>
+        <form method="post">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            <div class="form-floating mb-3">
+                {{ form.username|add_class:"form-control" }}
+                <label for="{{ form.username.id_for_label }}">მომხმარებლის ნომერი</label>
+                {% if form.username.errors %}
+                    <div class="text-danger small">{{ form.username.errors|striptags }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-floating mb-3">
+                {{ form.password|add_class:"form-control" }}
+                <label for="{{ form.password.id_for_label }}">პაროლი</label>
+                {% if form.password.errors %}
+                    <div class="text-danger small">{{ form.password.errors|striptags }}</div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">შესვლა</button>
+        </form>
+
+        <!-- ✅ Password Reset Link -->
+        <div class="text-center mt-3">
+            <a href="{% url 'forgot_password' %}" class="text-decoration-none text-primary">
+                დაგავიწყდა პაროლი?
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-6 p-5 text-center d-none d-md-block">
+        <img src="https://png.pngtree.com/png-vector/20221004/ourmid/pngtree-new-car-delight-a-happy-owner-celebrating-their-recent-purchase-vector-png-image_39491154.png" alt="Car login illustration" width="450px">
+        <p class="mt-4">შედი შენს ანგარიშზე და იქირავე მანქანა წამებში!</p>
+    </div>
+</div>
+{% endblock %}

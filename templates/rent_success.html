@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}ქირაობა წარმატებით დასრულდა{% endblock %}
+
+{% block content %}
+<div class="container py-5 text-center">
+    <h2 class="text-success mb-4">🚗 ქირაობა წარმატებით დასრულდა!</h2>
+    <p class="lead">გმადლობთ, რომ სარგებლობთ AutoRent სერვისით.</p>
+    <a href="{% url 'profile' %}" class="btn btn-outline-primary mt-3">ჩემი პროფილი</a>
+</div>
+{% endblock %}

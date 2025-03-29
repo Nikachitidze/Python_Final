@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static forms_tags %}
+
+{% block title %}მანქანის ქირაობა{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row shadow-lg p-4 bg-white rounded-4 align-items-center">
+        
+        <!-- მანქანის ფოტო -->
+        <div class="col-md-6 text-center">
+            <img src="{{ car.photo1.url }}" alt="Car" class="img-fluid rounded">
+        </div>
+
+        <!-- ქირაობის ფორმა -->
+        <div class="col-md-6">
+            <h3>ქირაობა: {{ car.brand }} {{ car.model }}</h3>
+            <p class="fs-5 mb-4">ფასი დღეში: <strong>{{ car.price_per_day }} ₾</strong></p>
+
+            <form method="post">
+                {% csrf_token %}
+                
+                <!-- დაწყების თარიღი -->
+                <div class="mb-3">
+                    <label for="startDate" class="form-label">დაწყების თარიღი</label>
+                    <input type="date" id="startDate" name="rent_start_date" class="form-control" required>
+                </div>
+
+                <!-- დღეების რაოდენობა -->
+                <div class="mb-3">
+                    <label for="daysRange" class="form-label">რამდენი დღე გსურთ ქირაობა?</label>
+                    <input type="range" class="form-range" min="1" max="30" id="daysRange" name="rent_days" value="1" oninput="updateUI()">
+                    <p>არჩეული დღეები: <span id="dayCount">1</span> დღე</p>
+                </div>
+
+                <!-- გადამალული ველი -->
+                <input type="hidden" name="rent_end_date" id="endDateInput">
+
+                <!-- თანხის გაწერა -->
+                <div class="mb-4">
+                    <p class="fw-bold">სულ გადასახადი: <span id="totalPrice">{{ car.price_per_day }}</span> ₾</p>
+                </div>
+
+                <button type="submit" class="btn btn-success w-100 fs-5">დამტკიცება</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Script -->
+<script>
+    const perDay = {{ car.price_per_day }};
+    const dayCount = document.getElementById('dayCount');
+    const totalPrice = document.getElementById('totalPrice');
+    const daysRange = document.getElementById('daysRange');
+    const startDate = document.getElementById('startDate');
+    const endDateInput = document.getElementById('endDateInput');
+
+    function updateUI() {
+        const days = parseInt(daysRange.value);
+        dayCount.textContent = days;
+        totalPrice.textContent = (days * perDay).toFixed(2);
+
+        const start = new Date(startDate.value);
+        if (!isNaN(start.getTime())) {
+            const end = new Date(start);
+            end.setDate(end.getDate() + days - 1);
+            const isoEnd = end.toISOString().split('T')[0];
+            endDateInput.value = isoEnd;
+        }
+    }
+
+    // ყოველთვის გაააქტიურე ცვლილებაზე
+    startDate.addEventListener('change', updateUI);
+</script>
+{% endblock %}

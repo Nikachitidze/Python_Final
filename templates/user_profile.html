@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ user.first_name }} {{ user.last_name }} - პროფილი{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 bg-white shadow rounded p-4">
+            <div class="d-flex align-items-center mb-4">
+                <div class="rounded-circle text-white d-flex align-items-center justify-content-center shadow"
+                     style="width: 80px; height: 80px; font-size: 1.8rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    {{ user.first_name|first }}{{ user.last_name|first }}
+                </div>
+                <div class="ms-3">
+                    <h4 class="fw-bold mb-0">{{ user.first_name }} {{ user.last_name }}</h4>
+                    <p class="text-muted mb-0">{{ user.email }}</p>
+                    <p class="text-muted">{{ user.phone_number }}</p>
+                </div>
+            </div>
+
+            <hr>
+
+            <h5 class="fw-semibold">მომხმარებლის განცხადებები</h5>
+            <p class="text-muted">აქ გამოჩნდება მანქანები, რომელიც ამ მომხმარებელმა გამოაქვეყნა.</p>
+
+            <div class="row">
+                {% for car in user.car_set.all %}
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow-sm">
+                        <img src="{{ car.photo1.url }}" class="card-img-top" alt="{{ car.brand }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ car.brand }} {{ car.model }}</h5>
+                            <p class="card-text text-muted">{{ car.city }} / {{ car.year }} / {{ car.transmission }}</p>
+                            <p class="card-text fw-bold">{{ car.price_per_day }} ₾ / დღეში</p>
+                            <a href="{% url 'car_detail' car.id %}" class="btn btn-outline-primary w-100">დეტალურად</a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-muted">ამ მომხმარებელს ჯერ არ დაუმატებია მანქანები.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

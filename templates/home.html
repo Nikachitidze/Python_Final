@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}მთავარი - AutoRent{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+    <h3 class="mb-4">🌟 რჩეული მანქანები</h3>
+    <div class="row row-cols-1 row-cols-md-4 g-4 mb-5">
+        {% for car in featured_cars %}
+        <div class="col">
+            <div class="card shadow-sm h-100">
+<img src="{{ car.photo1.url }}" class="img-fluid" alt="Car image">                <div class="card-body">
+                    <h5 class="card-title">{{ car.brand }} {{ car.model }}</h5>
+                    <p class="card-text">{{ car.city }} / {{ car.year }} / {{ car.transmission }}</p>
+                    <p class="fw-bold">{{ car.price_per_day }}₾ / დღეში</p>
+                    <a href="{% url 'car_detail' car.id %}" class="btn btn-outline-primary w-100">დეტალურად</a>                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h3 class="mb-4">🎲 შემთხვევითი მანქანები</h3>
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+        {% for car in random_cars %}
+        <div class="col">
+            <div class="card shadow-sm h-100">
+<img src="{{ car.photo1.url }}" class="img-fluid" alt="Car image">                <div class="card-body">
+                    <h5 class="card-title">{{ car.brand }} {{ car.model }}</h5>
+                    <p class="card-text">{{ car.city }} / {{ car.year }} / {{ car.transmission }}</p>
+                    <p class="fw-bold">{{ car.price_per_day }}₾ / დღეში</p>
+                    <<a href="{% url 'car_detail' car.id %}" class="btn btn-outline-primary w-100">დეტალურად</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

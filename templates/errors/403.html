@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}წვდომა აკრძალულია{% endblock %}
+{% block content %}
+<div class="text-center py-5">
+    <h1 class="display-4">403 - აკრძალულია</h1>
+    <p class="lead">თქვენ არ გაქვთ ამ გვერდის ნახვის უფლება.</p>
+    <a href="{% url 'home' %}" class="btn btn-warning mt-3">დაბრუნება</a>
+</div>
+{% endblock %}
