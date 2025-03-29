@@ -124,17 +124,6 @@ All imported cars will be assigned to the first superuser and use the default im
 
 ---
 
-## 👤 Developer
-
-Made by **Aleksandre Kolbini**  
-Final project for **IT Step Academy**
-
-[![GitHub](https://img.shields.io/badge/GitHub-Aleksandre16-black?style=flat&logo=github)](https://github.com/Aleksandre16)  
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-blue?style=flat&logo=linkedin)](https://www.linkedin.com/in/aleksandre-kolbini-266219254/)  
-📧 kolbinialeksandre@gmail.com
-
----
-
 ## 📜 License
 
 This project is for educational purposes.  
